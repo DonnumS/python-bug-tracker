@@ -39,7 +39,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(235, 238, 238);</string>
+     <string notr="true">background-color: rgb(235, 238, 238);
+color: black;</string>
     </property>
    </widget>
    <widget class="QLabel" name="menuLabel">
@@ -52,7 +53,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">color: black;</string>
     </property>
     <property name="text">
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -62,7 +63,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;MENU&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="dashBoardButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -71,11 +72,14 @@ p, li { white-space: pre-wrap; }
       <height>32</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;</string>
+    </property>
     <property name="text">
      <string>Dashboard</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="viewBugsButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -84,11 +88,14 @@ p, li { white-space: pre-wrap; }
       <height>32</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;</string>
+    </property>
     <property name="text">
      <string>View Bugs</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="createBugButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -97,11 +104,14 @@ p, li { white-space: pre-wrap; }
       <height>32</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;</string>
+    </property>
     <property name="text">
      <string>Create Bug</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="logOutButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -110,11 +120,15 @@ p, li { white-space: pre-wrap; }
       <height>32</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: black;
+</string>
+    </property>
     <property name="text">
      <string>Log Out</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="appDetailsTxt">
     <property name="geometry">
      <rect>
       <x>140</x>
