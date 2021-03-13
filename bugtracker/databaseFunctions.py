@@ -7,6 +7,19 @@ con = mysql.connector.connect(user='root',
 cursor = con.cursor()
 
 
+def getHigh():
+    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 1"
+    cursor.execute(query)
+    # print(cursor)
+
+    stringNum = ""
+
+    for num in cursor:
+        stringNum = num[0]
+
+    return int(stringNum)
+
+
 def addNewUser(name, username, password, id, email, role):
     idInt = int(id)
     query = ("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES ({}, '{}', '{}', '{}', '{}', '{}')".format(
@@ -84,3 +97,6 @@ def canAdministerBugs(user):
         return True
 
     return False
+
+
+getHigh()

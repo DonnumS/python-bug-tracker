@@ -112,9 +112,13 @@ class MainWindow:
 
     # Navigate to log in screen when we press logout
     def logOut(self):
+        # Simply navigate to the loginPage after setting currentLoggedIn to an empty string
+        self.currentLoggedIn = ""
         self.ui.stackedWidget.setCurrentWidget(self.ui.loginPage)
 
     def navigateDashboard(self):
+        # No restrictions when navigating to the dashboard
+        self.ui.retranslateUi
         self.ui.stackedWidget.setCurrentWidget(self.ui.dashBoardPage)
 
     def navigateViewBugs(self):
@@ -140,7 +144,13 @@ class MainWindow:
             self.notAccess()
 
     def navigateEditStatusPage(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.editBugStatusPage)
+        # Check if user has role admin or moderator
+        if(adminCheck(self.currentLoggedIn) or moderatorCheck(self.currentLoggedIn)):
+            # Navigate to edit status page
+            self.ui.stackedWidget.setCurrentWidget(self.ui.editBugStatusPage)
+        else:
+            # Display error message if user does not have access
+            self.notAccess()
 
     def addUserToDb(self):
 
