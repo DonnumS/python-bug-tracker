@@ -6,7 +6,7 @@ from PyQt5.QtCore import QTimer
 from main_ui import Ui_MainWindow
 
 
-from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck
+from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete
 
 
 class MainWindow:
@@ -117,8 +117,16 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.loginPage)
 
     def navigateDashboard(self):
+        # First we update the dashboard bug counters
+        self.ui.highCount.setText(
+            "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">{highCount}</span></p></body></html>".format(highCount=getHigh()))
+        self.ui.medCount.setText(
+            "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">{medCount}</span></p></body></html>".format(medCount=getMed()))
+        self.ui.lowCount.setText(
+            "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">{lowCount}</span></p></body></html>".format(lowCount=getLow()))
+        self.ui.completeCount.setText(
+            "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">{completeCount}</span></p></body></html>".format(completeCount=getComplete()))
         # No restrictions when navigating to the dashboard
-        self.ui.retranslateUi
         self.ui.stackedWidget.setCurrentWidget(self.ui.dashBoardPage)
 
     def navigateViewBugs(self):

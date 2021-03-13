@@ -20,6 +20,45 @@ def getHigh():
     return int(stringNum)
 
 
+def getMed():
+    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 2"
+    cursor.execute(query)
+    # print(cursor)
+
+    stringNum = ""
+
+    for num in cursor:
+        stringNum = num[0]
+
+    return int(stringNum)
+
+
+def getLow():
+    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 3"
+    cursor.execute(query)
+    # print(cursor)
+
+    stringNum = ""
+
+    for num in cursor:
+        stringNum = num[0]
+
+    return int(stringNum)
+
+
+def getComplete():
+    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 4"
+    cursor.execute(query)
+    # print(cursor)
+
+    stringNum = ""
+
+    for num in cursor:
+        stringNum = num[0]
+
+    return int(stringNum)
+
+
 def addNewUser(name, username, password, id, email, role):
     idInt = int(id)
     query = ("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES ({}, '{}', '{}', '{}', '{}', '{}')".format(

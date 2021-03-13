@@ -491,7 +491,8 @@ class Ui_MainWindow(object):
         self.logoutButton_2.setText(_translate("MainWindow", "Log Out"))
         self.highLabel.setText(_translate(
             "MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:24pt; font-weight:600;\">Total high:</span></p></body></html>"))
-        self.highCount.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">{high}</span></p></body></html>".format(high=getHigh())))
+        self.highCount.setText(_translate(
+            "MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">0</span></p></body></html>"))
         self.medLabel.setText(_translate(
             "MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:24pt; font-weight:600;\">Total medium:</span></p></body></html>"))
         self.medCount.setText(_translate(
