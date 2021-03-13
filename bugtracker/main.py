@@ -8,6 +8,11 @@ from main_ui import Ui_MainWindow
 
 from login import checkValidLogin
 
+from databaseFunctions import addNewUser, removeUser, canAdministerUsers
+
+
+currentUserLoggedIn = ""
+
 
 class MainWindow:
     def __init__(self):
@@ -66,6 +71,7 @@ class MainWindow:
         self.ui.submitNewUser.clicked.connect(self.addUserToDb)
 
         # Buttons that removes user from database
+        self.ui.deleteUserButton.clicked.connect(self.removeUserFromDb)
 
     def show(self):
         self.main_win.show()
@@ -78,6 +84,7 @@ class MainWindow:
         # Either login provided correct credentials, or display error
         if(checkValidLogin(username, password)):
             # Clear password from line edit
+            currentUserLoggedIn = username
             self.ui.passwordInput.clear()
             self.ui.stackedWidget.setCurrentWidget(self.ui.welcomePage)
         else:
@@ -90,6 +97,13 @@ class MainWindow:
         msg = QMessageBox()
         msg.setWindowTitle("Error!")
         msg.setText("Wrong Username and Password combination")
+
+        x = msg.exec_()
+
+    def notAccess(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Error!")
+        msg.setText("You do not have correct privilidges")
 
         x = msg.exec_()
 
@@ -107,17 +121,24 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.createBugsPage)
 
     def navigateUserPage(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.userPage)
+        if(canAdministerUsers(currentUserLoggedIn)):
+            self.ui.stackedWidget.setCurrentWidget(self.ui.userPage)
+        else:
+            self.notAccess()
 
     def navigateEditStatusPage(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.editBugStatusPage)
 
     def addUserToDb(self):
+
+        # Get the different inputs
         name = self.ui.addNameInput.text()
         username = self.ui.addNameInput.text()
         password = self.ui.addPasswordInput.text()
         iD = self.ui.addIDInput.text()
         email = self.ui.addEmailInput.text()
+        if(email == ""):
+            email = "Not Specified"
 
         role = ""
         # Get role selected
@@ -129,14 +150,20 @@ class MainWindow:
             role = "user"
 
         # For debugging purposes
-        print("Added new user with this info\nName: {}\nUsername: {}\nPassword: {}\nID: {}\nEmail: {}\nRole: {}".format(
-            name, username, password, iD, email, role))
+        # print("Added new user with this info\nName: {}\nUsername: {}\nPassword: {}\nID: {}\nEmail: {}\nRole: {}".format(
+        #   name, username, password, iD, email, role))
 
-    def addUser(self):
-        pass
+        # Add user to database with login information
+        addNewUser(name, username, password, iD, email, role)
 
-    def removeUser(self):
-        pass
+    def removeUserFromDb(self):
+        iD = self.ui.deleteUserId.text()
+
+        # For debuggin purposes
+        # print("Deleted user with employee id {} from database".format(iD))
+
+        # Pass iD to database functions that removes employee with employee id = iD
+        removeUser(iD)
 
 
 if __name__ == '__main__':
