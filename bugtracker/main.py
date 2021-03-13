@@ -3,19 +3,17 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QTimer
-
 from main_ui import Ui_MainWindow
 
-from login import checkValidLogin
 
-from databaseFunctions import addNewUser, removeUser, canAdministerUsers
-
-
-currentUserLoggedIn = ""
+from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck
 
 
 class MainWindow:
+
     def __init__(self):
+        self.currentLoggedIn = ""
+
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_win)
@@ -69,9 +67,11 @@ class MainWindow:
 
         # Buttons that adds new user to database
         self.ui.submitNewUser.clicked.connect(self.addUserToDb)
+        self.ui.submitNewUser.clicked.connect(self.navigateDashboard)
 
         # Buttons that removes user from database
         self.ui.deleteUserButton.clicked.connect(self.removeUserFromDb)
+        self.ui.deleteUserButton.clicked.connect(self.navigateDashboard)
 
     def show(self):
         self.main_win.show()
@@ -81,10 +81,12 @@ class MainWindow:
         username = self.ui.userNameInput.text()
         password = self.ui.passwordInput.text()
 
+        # Set the username of the currently logged in
+        self.currentLoggedIn = username
+
         # Either login provided correct credentials, or display error
         if(checkValidLogin(username, password)):
             # Clear password from line edit
-            currentUserLoggedIn = username
             self.ui.passwordInput.clear()
             self.ui.stackedWidget.setCurrentWidget(self.ui.welcomePage)
         else:
@@ -101,9 +103,10 @@ class MainWindow:
         x = msg.exec_()
 
     def notAccess(self):
+        # Simple popup message box to alert that user does not have access to certain parts of the app
         msg = QMessageBox()
         msg.setWindowTitle("Error!")
-        msg.setText("You do not have correct privilidges")
+        msg.setText("You do not have correct privileges")
 
         x = msg.exec_()
 
@@ -118,12 +121,22 @@ class MainWindow:
         self.ui.stackedWidget.setCurrentWidget(self.ui.viewBugsPage)
 
     def navigateCreateBugs(self):
-        self.ui.stackedWidget.setCurrentWidget(self.ui.createBugsPage)
+        # Check if user has role admin or moderator
+
+        if(adminCheck(self.currentLoggedIn) or moderatorCheck(self.currentLoggedIn)):
+            # Navigate to page is user has correct roles
+            self.ui.stackedWidget.setCurrentWidget(self.ui.createBugsPage)
+        else:
+            # Display error message if user does not have access
+            self.notAccess()
 
     def navigateUserPage(self):
-        if(canAdministerUsers(currentUserLoggedIn)):
+        # Check if user has role admin
+        if(adminCheck(self.currentLoggedIn)):
+            # Navigate to user page if user is admin
             self.ui.stackedWidget.setCurrentWidget(self.ui.userPage)
         else:
+            # Display error message if user does not have access
             self.notAccess()
 
     def navigateEditStatusPage(self):
@@ -133,7 +146,7 @@ class MainWindow:
 
         # Get the different inputs
         name = self.ui.addNameInput.text()
-        username = self.ui.addNameInput.text()
+        username = self.ui.addUsernameInput.text()
         password = self.ui.addPasswordInput.text()
         iD = self.ui.addIDInput.text()
         email = self.ui.addEmailInput.text()
@@ -155,6 +168,11 @@ class MainWindow:
 
         # Add user to database with login information
         addNewUser(name, username, password, iD, email, role)
+        self.ui.addNameInput.clear()
+        self.ui.addUsernameInput.clear()
+        self.ui.addPasswordInput.clear()
+        self.ui.addIDInput.clear()
+        self.ui.addEmailInput.clear()
 
     def removeUserFromDb(self):
         iD = self.ui.deleteUserId.text()
