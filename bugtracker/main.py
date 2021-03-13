@@ -18,6 +18,8 @@ class MainWindow:
         # Start by showing the log in screen
         self.ui.stackedWidget.setCurrentWidget(self.ui.loginPage)
 
+        # NAVIGATION BUTTONS:
+
         # Log in when we press log in button
         self.ui.loginButton.clicked.connect(self.tryLoggin)
 
@@ -28,6 +30,42 @@ class MainWindow:
         # Buttons that navigate to dashboard
         self.ui.dashboardButton.clicked.connect(self.navigateDashboard)
         self.ui.dashboardButton_2.clicked.connect(self.navigateDashboard)
+        self.ui.backButton.clicked.connect(self.navigateDashboard)
+        self.ui.createBugBack.clicked.connect(self.navigateDashboard)
+        self.ui.returnFromUserToDashboard.clicked.connect(
+            self.navigateDashboard)
+        self.ui.returnToDashboard.clicked.connect(self.navigateDashboard)
+
+        # Buttons that navigate to viewBugsPage
+        self.ui.viewBugsButton.clicked.connect(self.navigateViewBugs)
+        self.ui.viewBugsButton_2.clicked.connect(self.navigateViewBugs)
+
+        # Buttons that navigate to createBug page
+        self.ui.createBugButton.clicked.connect(self.navigateCreateBugs)
+        self.ui.createBugButton_2.clicked.connect(self.navigateCreateBugs)
+        self.ui.addBugButton.clicked.connect(self.navigateCreateBugs)
+
+        # Buttons that navigate to editBugStatus page
+        self.ui.editBugStatus.clicked.connect(self.navigateEditStatusPage)
+
+        # Buttons that navigate to User page
+        self.ui.userButton.clicked.connect(self.navigateUserPage)
+        self.ui.userButton_2.clicked.connect(self.navigateUserPage)
+
+        # ACTION BUTTONS:
+
+        # Buttons that loads data from sql database (uncompleted or completed bugs)
+
+        # Buttons that submits/creates new bug
+
+        # Buttons that marks bug as complete
+
+        # Buttons that deletes bug from database
+
+        # Buttons that adds new user to database
+        self.ui.submitNewUser.clicked.connect(self.addUserToDb)
+
+        # Buttons that removes user from database
 
     def show(self):
         self.main_win.show()
@@ -64,6 +102,35 @@ class MainWindow:
 
     def navigateViewBugs(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.viewBugsPage)
+
+    def navigateCreateBugs(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.createBugsPage)
+
+    def navigateUserPage(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.userPage)
+
+    def navigateEditStatusPage(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.editBugStatusPage)
+
+    def addUserToDb(self):
+        name = self.ui.addNameInput.text()
+        username = self.ui.addNameInput.text()
+        password = self.ui.addPasswordInput.text()
+        iD = self.ui.addIDInput.text()
+        email = self.ui.addEmailInput.text()
+
+        role = ""
+        # Get role selected
+        if(self.ui.radioAdmin.isChecked()):
+            role = "admin"
+        elif(self.ui.radioModerator.isChecked()):
+            role = "moderator"
+        else:
+            role = "user"
+
+        # For debugging purposes
+        print("Added new user with this info\nName: {}\nUsername: {}\nPassword: {}\nID: {}\nEmail: {}\nRole: {}".format(
+            name, username, password, iD, email, role))
 
     def addUser(self):
         pass
