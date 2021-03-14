@@ -172,14 +172,19 @@ class MainWindow:
             self.notAccess()
 
     def loadUncomplete(self):
+        # Retrieve data from sql query and get columns and rows length
         self.tableData = getUncompleteData()
         self.rows = len(self.tableData)
         self.columns = len(self.tableData[0])
 
+        # Clear table incase it hase been filled with data earlier
         self.ui.bugTable.clear()
+
+        # Set the row and column count of the table to display
         self.ui.bugTable.setRowCount = self.rows
         self.ui.bugTable.setColumnCOunt = self.columns
 
+        # Insert data in table
         for row in range(self.rows):
             for column in range(self.columns):
                 # Check if value datatime, if True convert to string
@@ -191,21 +196,25 @@ class MainWindow:
                         row, column, QTableWidgetItem(str(self.tableData[row][column])))
 
     def loadComplete(self):
+        # Retrieve data from sql query and get columns and rows length
         self.tableData = getCompleteData()
         self.rows = len(self.tableData)
         self.columns = len(self.tableData[0])
 
+        # Clear table incase it hase been filled with data earlier
         self.ui.bugTable.clear()
+
+        # Set the row and column count of the table to display
         self.ui.bugTable.setRowCount = self.rows
         self.ui.bugTable.setColumnCOunt = self.columns
 
+        # Insert data in table
         for row in range(self.rows):
             for column in range(self.columns):
                 # Check if value datatime, if True convert to string
                 if isinstance(self.tableData[row][column], datetime.date):
                     self.ui.bugTable.setItem(row, column, QTableWidgetItem(
                         (self.tableData[row][column].strftime('%d/%m/%Y'))))
-
                 else:
                     self.ui.bugTable.setItem(
                         row, column, QTableWidgetItem(str(self.tableData[row][column])))
