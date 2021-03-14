@@ -72,6 +72,7 @@ class MainWindow:
 
         # Buttons that submits/creates new bug
         self.ui.createBugSubmit.clicked.connect(self.addBugToDB)
+        self.ui.createBugSubmit.clicked.connect(self.navigateDashboard)
 
         # Buttons that marks bug as complete
         self.ui.markBugAsComplete.clicked.connect(self.bugCompleted)
