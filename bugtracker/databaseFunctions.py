@@ -10,9 +10,9 @@ cursor = con.cursor()
 
 
 def getHigh():
+    # Get the count for bugs with priority 1
     query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 1"
     cursor.execute(query)
-    # print(cursor)
 
     stringNum = ""
 
@@ -23,9 +23,9 @@ def getHigh():
 
 
 def getMed():
+    # Get the count for bugs with priority 2
     query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 2"
     cursor.execute(query)
-    # print(cursor)
 
     stringNum = ""
 
@@ -36,9 +36,9 @@ def getMed():
 
 
 def getLow():
+    # Get the count for bugs with priority 3
     query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 3"
     cursor.execute(query)
-    # print(cursor)
 
     stringNum = ""
 
@@ -49,9 +49,9 @@ def getLow():
 
 
 def getComplete():
+    # Get the count for bugs with priority 4
     query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 4"
     cursor.execute(query)
-    # print(cursor)
 
     stringNum = ""
 
@@ -66,10 +66,9 @@ def addNewUser(name, username, password, id, email, role):
     query = ("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES ({}, '{}', '{}', '{}', '{}', '{}')".format(
         idInt, username, password, role, name, email))
 
-    # print(query)
     cursor.execute(query)
+    # Commit the changes to the db
     con.commit()
-    #print("Added user to database")
 
 
 def checkValidLogin(username, password):
@@ -104,24 +103,21 @@ def removeUser(id):
     iDint = int(id)
     query = "DELETE FROM loginCredentials WHERE EmployeeId = {}".format(iDint)
     cursor.execute(query)
+    # Commit the changes to the db
     con.commit()
-    #print("Deleted user from database")
 
 
 def adminCheck(user):
-    #print(user + " is the user to be checked")
+    # Get the role of user
     query = "SELECT UserRole FROM loginCredentials WHERE Username = '{}'".format(
         user)
-    # print(query)
+
     cursor.execute(query)
 
     result = ""
 
     for(UserRole) in cursor:
         result = UserRole
-
-    #print("The result from role query is:")
-    # print(result[0])
 
     if result[0] == "admin":
         return True
@@ -129,19 +125,16 @@ def adminCheck(user):
 
 
 def moderatorCheck(user):
-    #print(user + " is the user to be checked")
+    # Get the role of the user
     query = "SELECT UserRole FROM loginCredentials WHERE Username = '{}'".format(
         user)
-    # print(query)
+
     cursor.execute(query)
 
     result = ""
 
     for(UserRole) in cursor:
         result = UserRole
-
-    #print("The result from role query is:")
-    # print(result[0])
 
     if result[0] == "admin" or result[0] == "moderator":
         return True
@@ -152,6 +145,7 @@ def getUncompleteData():
     query = "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority <> 4"
     cursor.execute(query)
 
+    # Construct the list of lists with data
     result = []
     for (BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated) in cursor:
         temp = []
@@ -170,6 +164,7 @@ def getCompleteData():
     query = "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority = 4"
     cursor.execute(query)
 
+    # Construct list of lists with the data
     result = []
     for (BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated) in cursor:
         temp = []
@@ -186,16 +181,24 @@ def getCompleteData():
 
 
 def setBugComplete(bugId):
+    # Change priority of bug with bugId to priority 4
     query = "UPDATE BugDetails SET Priority = 4 WHERE BugId = {}".format(bugId)
     cursor.execute(query)
     con.commit()
 
 
 def deleteBug(bugId):
+    # Delete bug with bugId
     query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
     cursor.execute(query)
     con.commit()
 
 
 def addBug(title, appName, version, creator, assignedTo, details, priority, steps):
-    print("Hei")
+    query = """INSERT INTO BugDetails (BugTitle, Application, AppVersion, 
+            Details, Steps, Priority, Assigned, CreatedBy, DayCreated) 
+            VALUES ('{}','{}','{}','{}','{}',{},'{}','{}', DATE(NOW()))""".format(title, appName, version, details, steps, priority, assignedTo, creator)
+
+    cursor.execute(query)
+    # Commit the change to db
+    con.commit()
