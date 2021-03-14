@@ -56,6 +56,7 @@ class Ui_MainWindow(object):
         self.loginButton.setGeometry(QtCore.QRect(350, 430, 113, 32))
         self.loginButton.setStyleSheet("color: black;")
         self.loginButton.setObjectName("loginButton")
+        self.loginButton.setAutoDefault(True)
         self.loginTitle = QtWidgets.QFrame(self.loginPage)
         self.loginTitle.setGeometry(QtCore.QRect(260, 120, 291, 80))
         self.loginTitle.setStyleSheet("#loginTitle{background-color: white;\n"
@@ -206,7 +207,8 @@ class Ui_MainWindow(object):
         self.viewBugsPage.setObjectName("viewBugsPage")
         self.bugTable = QtWidgets.QTableWidget(self.viewBugsPage)
         self.bugTable.setGeometry(QtCore.QRect(40, 40, 721, 371))
-        self.bugTable.setStyleSheet("")
+        self.bugTable.setStyleSheet(
+            "color: white; gridline-color: white;")
         self.bugTable.setRowCount(100)
         self.bugTable.setColumnCount(10)
         self.bugTable.setObjectName("bugTable")
@@ -525,7 +527,7 @@ class Ui_MainWindow(object):
         self.deleteBugFromDatabase.setText(_translate(
             "MainWindow", "Delete Bug From Database"))
         self.returnToDashboard.setText(
-            _translate("MainWindow", "Back To Dashboard"))
+            _translate("MainWindow", "Back"))
         self.editStatusToolTip.setText(_translate(
             "MainWindow", "<html><head/><body><p>Enter the ID of the bug you want to either delete or mark</p><p>as complete</p><p><br/></p><p>Then simply press the button corresponding to your</p><p>wanted action.</p></body></html>"))
         self.createBugBack.setText(_translate("MainWindow", "Back"))

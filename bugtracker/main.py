@@ -9,7 +9,7 @@ from PyQt5.QtCore import QTimer
 from main_ui import Ui_MainWindow
 
 
-from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete, getUncompleteData, getCompleteData, setBugComplete, deleteBug
+from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete, getUncompleteData, getCompleteData, setBugComplete, deleteBug, addBug
 
 
 class MainWindow:
@@ -46,7 +46,7 @@ class MainWindow:
         self.ui.createBugBack.clicked.connect(self.navigateDashboard)
         self.ui.returnFromUserToDashboard.clicked.connect(
             self.navigateDashboard)
-        self.ui.returnToDashboard.clicked.connect(self.navigateDashboard)
+        self.ui.returnToDashboard.clicked.connect(self.navigateViewBugs)
 
         # Buttons that navigate to viewBugsPage
         self.ui.viewBugsButton.clicked.connect(self.navigateViewBugs)
@@ -71,6 +71,7 @@ class MainWindow:
         self.ui.loadCompleteTable.clicked.connect(self.loadComplete)
 
         # Buttons that submits/creates new bug
+        self.ui.createBugSubmit.clicked.connect(self.addBugToDB)
 
         # Buttons that marks bug as complete
         self.ui.markBugAsComplete.clicked.connect(self.bugCompleted)
@@ -246,6 +247,19 @@ class MainWindow:
         bugId = int(self.ui.editStatusBugId.text())
         self.ui.editStatusBugId.clear()
         deleteBug(bugId)
+
+    def addBugToDB(self):
+        title = self.ui.inputBugTitle.text()
+        appName = self.ui.inputAppName.text()
+        version = self.ui.inputVersion.text()
+        creator = self.ui.inputCreatedBy.text()
+        assigned = self.ui.inputAssignedTo.text()
+        details = self.ui.inputDetails.text()
+        priority = int(self.ui.inputPriority.value())
+        steps = self.ui.inputSteps.toPlainText()
+
+        addBug(title, appName, version, creator,
+               assigned, details, priority, steps)
 
     def addUserToDb(self):
 

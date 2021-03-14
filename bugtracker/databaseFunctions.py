@@ -6,6 +6,8 @@ con = mysql.connector.connect(user='root',
                               database='bug_tracker')
 cursor = con.cursor()
 
+# All the functions that helps the app communicate with the MySQL server that runs locally on my machine
+
 
 def getHigh():
     query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 1"
@@ -193,3 +195,7 @@ def deleteBug(bugId):
     query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
     cursor.execute(query)
     con.commit()
+
+
+def addBug(title, appName, version, creator, assignedTo, details, priority, steps):
+    print("Hei")
