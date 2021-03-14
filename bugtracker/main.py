@@ -249,6 +249,7 @@ class MainWindow:
         deleteBug(bugId)
 
     def addBugToDB(self):
+        # Get all the input fields
         title = self.ui.inputBugTitle.text()
         appName = self.ui.inputAppName.text()
         version = self.ui.inputVersion.text()
@@ -258,6 +259,7 @@ class MainWindow:
         priority = int(self.ui.inputPriority.value())
         steps = self.ui.inputSteps.toPlainText()
 
+        # Add bug to database
         addBug(title, appName, version, creator,
                assigned, details, priority, steps)
 
