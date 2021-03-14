@@ -210,6 +210,7 @@ class Ui_MainWindow(object):
         self.bugTable.setRowCount(100)
         self.bugTable.setColumnCount(10)
         self.bugTable.setObjectName("bugTable")
+
         self.loadTableButton = QtWidgets.QPushButton(self.viewBugsPage)
         self.loadTableButton.setGeometry(QtCore.QRect(40, 420, 113, 32))
         self.loadTableButton.setStyleSheet("color: black;")

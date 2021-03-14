@@ -157,6 +157,10 @@ def getUncompleteData():
                      Steps, Priority, Assigned, CreatedBy, DayCreated))
         result.append(temp)
 
+    # Handles the case when query results in empty list
+    if len(result) == 0:
+        result = [["No bugs in db", "--", "--", "--", "--",
+                   "--", "--", "--", "--", "--"]]
     return result
 
 
@@ -170,6 +174,11 @@ def getCompleteData():
         temp.extend((BugId, BugTitle, Application, AppVersion, Details,
                      Steps, Priority, Assigned, CreatedBy, DayCreated))
         result.append(temp)
+
+    # Handles the case when query results in empty list
+    if len(result) == 0:
+        result = [["No bugs in db", "--", "--", "--", "--",
+                   "--", "--", "--", "--", "--"]]
 
     return result
 

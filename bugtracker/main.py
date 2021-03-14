@@ -186,6 +186,14 @@ class MainWindow:
         self.ui.bugTable.setRowCount = self.rows
         self.ui.bugTable.setColumnCOunt = self.columns
 
+        # Add correct labels to each of the columns and hide the vertical labels
+        self.ui.bugTable.setHorizontalHeaderLabels(
+            "BugId;Title;Application;Version;Details;Steps;Priority;AssignedTo;CreatedBy;DayCreated".split(";"))
+
+        # Resize rows so all information can be viewed
+        for i in range(100):
+            self.ui.bugTable.setRowHeight(i, 100)
+
         # Insert data in table
         for row in range(self.rows):
             for column in range(self.columns):
@@ -209,6 +217,14 @@ class MainWindow:
         # Set the row and column count of the table to display
         self.ui.bugTable.setRowCount = self.rows
         self.ui.bugTable.setColumnCOunt = self.columns
+
+        # Add correct labels to each of the columns
+        self.ui.bugTable.setHorizontalHeaderLabels(
+            "BugId;Title;Application;Version;Details;Steps;Priority;AssignedTo;CreatedBy;DayCreated".split(";"))
+
+        # Resize rows so all information can be viewed
+        for i in range(100):
+            self.ui.bugTable.setRowHeight(i, 100)
 
         # Insert data in table
         for row in range(self.rows):
