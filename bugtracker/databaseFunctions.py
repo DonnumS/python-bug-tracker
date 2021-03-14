@@ -127,6 +127,22 @@ def adminCheck(user):
 
 
 def moderatorCheck(user):
+    #print(user + " is the user to be checked")
+    query = "SELECT UserRole FROM loginCredentials WHERE Username = '{}'".format(
+        user)
+    # print(query)
+    cursor.execute(query)
+
+    result = ""
+
+    for(UserRole) in cursor:
+        result = UserRole
+
+    #print("The result from role query is:")
+    # print(result[0])
+
+    if result[0] == "admin" or result[0] == "moderator":
+        return True
     return False
 
 
@@ -156,3 +172,15 @@ def getCompleteData():
         result.append(temp)
 
     return result
+
+
+def setBugComplete(bugId):
+    query = "UPDATE BugDetails SET Priority = 4 WHERE BugId = {}".format(bugId)
+    cursor.execute(query)
+    con.commit()
+
+
+def deleteBug(bugId):
+    query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
+    cursor.execute(query)
+    con.commit()

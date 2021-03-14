@@ -9,7 +9,7 @@ from PyQt5.QtCore import QTimer
 from main_ui import Ui_MainWindow
 
 
-from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete, getUncompleteData, getCompleteData
+from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete, getUncompleteData, getCompleteData, setBugComplete, deleteBug
 
 
 class MainWindow:
@@ -73,8 +73,10 @@ class MainWindow:
         # Buttons that submits/creates new bug
 
         # Buttons that marks bug as complete
+        self.ui.markBugAsComplete.clicked.connect(self.bugCompleted)
 
         # Buttons that deletes bug from database
+        self.ui.deleteBugFromDatabase.clicked.connect(self.bugDelete)
 
         # Buttons that adds new user to database
         self.ui.submitNewUser.clicked.connect(self.addUserToDb)
@@ -218,6 +220,16 @@ class MainWindow:
                 else:
                     self.ui.bugTable.setItem(
                         row, column, QTableWidgetItem(str(self.tableData[row][column])))
+
+    def bugCompleted(self):
+        bugId = int(self.ui.editStatusBugId.text())
+        self.ui.editStatusBugId.clear()
+        setBugComplete(bugId)
+
+    def bugDelete(self):
+        bugId = int(self.ui.editStatusBugId.text())
+        self.ui.editStatusBugId.clear()
+        deleteBug(bugId)
 
     def addUserToDb(self):
 
