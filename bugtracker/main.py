@@ -1,18 +1,27 @@
 import sys
+from datetime import datetime
+import datetime
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtCore import QTimer
 from main_ui import Ui_MainWindow
 
 
-from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete
+from databaseFunctions import addNewUser, removeUser, checkValidLogin, adminCheck, moderatorCheck, getHigh, getMed, getLow, getComplete, getUncompleteData, getCompleteData
 
 
 class MainWindow:
 
     def __init__(self):
+        # Store the username of logged in user
         self.currentLoggedIn = ""
+
+        # Used to build table from sql data
+        self.tableData = []
+        self.rows = 0
+        self.columns = 0
 
         self.main_win = QMainWindow()
         self.ui = Ui_MainWindow()
@@ -58,6 +67,8 @@ class MainWindow:
         # ACTION BUTTONS:
 
         # Buttons that loads data from sql database (uncompleted or completed bugs)
+        self.ui.loadTableButton.clicked.connect(self.loadUncomplete)
+        self.ui.loadCompleteTable.clicked.connect(self.loadComplete)
 
         # Buttons that submits/creates new bug
 
@@ -159,6 +170,45 @@ class MainWindow:
         else:
             # Display error message if user does not have access
             self.notAccess()
+
+    def loadUncomplete(self):
+        self.tableData = getUncompleteData()
+        self.rows = len(self.tableData)
+        self.columns = len(self.tableData[0])
+
+        self.ui.bugTable.clear()
+        self.ui.bugTable.setRowCount = self.rows
+        self.ui.bugTable.setColumnCOunt = self.columns
+
+        for row in range(self.rows):
+            for column in range(self.columns):
+                # Check if value datatime, if True convert to string
+                if isinstance(self.tableData[row][column], datetime.date):
+                    self.ui.bugTable.setItem(row, column, QTableWidgetItem(
+                        (self.tableData[row][column].strftime('%d/%m/%Y'))))
+                else:
+                    self.ui.bugTable.setItem(
+                        row, column, QTableWidgetItem(str(self.tableData[row][column])))
+
+    def loadComplete(self):
+        self.tableData = getCompleteData()
+        self.rows = len(self.tableData)
+        self.columns = len(self.tableData[0])
+
+        self.ui.bugTable.clear()
+        self.ui.bugTable.setRowCount = self.rows
+        self.ui.bugTable.setColumnCOunt = self.columns
+
+        for row in range(self.rows):
+            for column in range(self.columns):
+                # Check if value datatime, if True convert to string
+                if isinstance(self.tableData[row][column], datetime.date):
+                    self.ui.bugTable.setItem(row, column, QTableWidgetItem(
+                        (self.tableData[row][column].strftime('%d/%m/%Y'))))
+
+                else:
+                    self.ui.bugTable.setItem(
+                        row, column, QTableWidgetItem(str(self.tableData[row][column])))
 
     def addUserToDb(self):
 

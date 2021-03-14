@@ -130,12 +130,29 @@ def moderatorCheck(user):
     return False
 
 
-def canAdministerBugs(user):
-    # Check db if user has role "admin" or "moderator"
-    if(user == "admin" or user == "moderator"):
-        return True
+def getUncompleteData():
+    query = "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority <> 4"
+    cursor.execute(query)
 
-    return False
+    result = []
+    for (BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated) in cursor:
+        temp = []
+        temp.extend((BugId, BugTitle, Application, AppVersion, Details,
+                     Steps, Priority, Assigned, CreatedBy, DayCreated))
+        result.append(temp)
+
+    return result
 
 
-getHigh()
+def getCompleteData():
+    query = "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority = 4"
+    cursor.execute(query)
+
+    result = []
+    for (BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated) in cursor:
+        temp = []
+        temp.extend((BugId, BugTitle, Application, AppVersion, Details,
+                     Steps, Priority, Assigned, CreatedBy, DayCreated))
+        result.append(temp)
+
+    return result
