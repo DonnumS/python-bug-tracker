@@ -142,8 +142,8 @@ def moderatorCheck(user):
 
 
 def getUncompleteData():
-    query = "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority <> 4"
-    cursor.execute(query)
+    cursor.execute(
+        "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority <> 4")
 
     # Construct the list of lists with data
     result = []
@@ -161,8 +161,8 @@ def getUncompleteData():
 
 
 def getCompleteData():
-    query = "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority = 4"
-    cursor.execute(query)
+    cursor.execute(
+        "SELECT BugId, BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated FROM BugDetails WHERE Priority = 4")
 
     # Construct list of lists with the data
     result = []
@@ -182,23 +182,45 @@ def getCompleteData():
 
 def setBugComplete(bugId):
     # Change priority of bug with bugId to priority 4
-    query = "UPDATE BugDetails SET Priority = 4 WHERE BugId = {}".format(bugId)
-    cursor.execute(query)
+
+    # Old query
+    # query = "UPDATE BugDetails SET Priority = 4 WHERE BugId = {}".format(bugId)
+
+    cursor.execute("UPDATE BugDetails SET Priority = 4 WHERE BugId = %(bugId)s", {
+        'bugId': bugId
+    })
     con.commit()
 
 
 def deleteBug(bugId):
     # Delete bug with bugId
-    query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
-    cursor.execute(query)
+
+    # Old query
+    #query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
+
+    cursor.execute("DELETE FROM BugDetails WHERE BugId = %(bugId)s", {
+        'bugId': bugId,
+    })
+
     con.commit()
 
 
 def addBug(title, appName, version, creator, assignedTo, details, priority, steps):
-    query = """INSERT INTO BugDetails (BugTitle, Application, AppVersion, 
-            Details, Steps, Priority, Assigned, CreatedBy, DayCreated) 
-            VALUES ('{}','{}','{}','{}','{}',{},'{}','{}', DATE(NOW()))""".format(title, appName, version, details, steps, priority, assignedTo, creator)
+    # query = """INSERT INTO BugDetails (BugTitle, Application, AppVersion,
+    #        Details, Steps, Priority, Assigned, CreatedBy, DayCreated)
+    #        VALUES ('{}','{}','{}','{}','{}',{},'{}','{}', DATE(NOW()))""".format(title, appName, version, details, steps, priority, assignedTo, creator)
+    # cursor.execute(query)
 
-    cursor.execute(query)
+    # New query that should prevent SQL injection
+    cursor.execute("INSERT INTO BugDetails (BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated) VALUES (%(title)s, %(appName)s, %(version)s, %(details)s, %(steps)s, %(priority)s, %(assignedTo)s, %(creator)s, DATE(NOW()));", {
+        'title': title,
+        'appName': appName,
+        'version': version,
+        'details': details,
+        'steps': steps,
+        'priority': priority,
+        'assignedTo': assignedTo,
+        'creator': creator
+    })
     # Commit the change to db
     con.commit()
