@@ -56,4 +56,4 @@ User:
 - [ ] Email alert for users assigned to bugs
 - [ ] Sort viewed bugs by time created, priority etc
 - [ ] Ability to edit contents of bugs in database
-- [ ] Ability to edit informatino about users already in system
+- [ ] Ability to edit information about users already in system
