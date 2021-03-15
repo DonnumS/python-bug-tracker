@@ -2,12 +2,21 @@ This is my WIP python bug tracking project.
 
 Different types of users:
 
-- Admin: Can create, delete and mark bugs as completed. Can also add users and delete them.
-- Moderator: Can create and mark bugs as completed. Can also delete them
-- User: Can mark bugs as completed
+Admin:
 
-All users can view the bugs stored in the database
+- Can add and delete users
+- Can create and remove bugs
+- Can mark bugs as completed
+- Can view all bugs that are completed or uncompleted
 
-It works by storing data for each bug in a local mySQL database.
+Moderator:
 
-The GUI is made using QT Designer:
+- Can create and remove bugs
+- Can mark bugs as completed
+- Can view all bugs that are completed or uncompleted
+
+User:
+
+- Can only view the completed or uncompleted bugs.
+
+Some screenshots of the GUI
