@@ -49,10 +49,11 @@ User:
 ## Improvements checklist
 
 - [x] Finish GUI
-- [x] one database for user information and one for bugs
+- [x] One database table for user information and one for bugs
 - [x] Functional login system
 - [x] Role based permissions
 - [ ] Protect from SQL injection
 - [ ] Email alert for users assigned to bugs
+- [ ] Sort viewed bugs by time created, priority etc
 - [ ] Ability to edit contents of bugs in database
 - [ ] Ability to edit informatino about users already in system
