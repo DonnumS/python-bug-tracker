@@ -56,7 +56,6 @@ class Ui_MainWindow(object):
         self.loginButton.setGeometry(QtCore.QRect(350, 430, 113, 32))
         self.loginButton.setStyleSheet("color: black;")
         self.loginButton.setObjectName("loginButton")
-        self.loginButton.setAutoDefault(True)
         self.loginTitle = QtWidgets.QFrame(self.loginPage)
         self.loginTitle.setGeometry(QtCore.QRect(260, 120, 291, 80))
         self.loginTitle.setStyleSheet("#loginTitle{background-color: white;\n"
