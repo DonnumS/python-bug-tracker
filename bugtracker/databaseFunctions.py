@@ -61,23 +61,30 @@ def getComplete():
     return int(stringNum)
 
 
-def addNewUser(name, username, password, id, email, role):
-    idInt = int(id)
+def addNewUser(name, username, password, userId, email, role):
+    idInt = int(userId)
     query = ("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES ({}, '{}', '{}', '{}', '{}', '{}')".format(
         idInt, username, password, role, name, email))
 
-    cursor.execute(query)
+    cursor.execute("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES (%(idInt)s, %(username)s, %(password)s, %(role)s, %(name)s, %(email)s)", {
+        'idInt': idInt,
+        'username': username,
+        'password': password,
+        'role': role,
+        'name': name,
+        'email': email
+    })
     # Commit the changes to the db
     con.commit()
 
 
 def checkValidLogin(username, password):
-    # Very simple and very unsafe login system that is only here for the functionality
-    query = ("SELECT Username, Password FROM loginCredentials WHERE Username = '{}' AND Password = '{}'".format(
-        username, password))
-    cursor.execute(query)
+    cursor.execute("SELECT Username, Password FROM loginCredentials WHERE Username = %(username)s AND Password = %(password)s", {
+        'username': username,
+        'password': password
+    })
 
-    #print("Query: {}\n".format(query))
+    # print("Query: {}\n".format(query))
 
     uName = ""
     pWord = ""
@@ -87,7 +94,7 @@ def checkValidLogin(username, password):
         uName = Username
         pWord = Password
 
-    #print(uName + " " + pWord)
+    # print(uName + " " + pWord)
 
     # Count if there is only 1 row
     rowCount = cursor.rowcount
@@ -100,19 +107,21 @@ def checkValidLogin(username, password):
 
 
 def removeUser(id):
-    iDint = int(id)
-    query = "DELETE FROM loginCredentials WHERE EmployeeId = {}".format(iDint)
-    cursor.execute(query)
+    idInt = int(id)
+
+    cursor.execute("DELETE FROM loginCredentials WHERE EmployeeId = %(idInt)s", {
+        'idInt': idInt
+    })
+
     # Commit the changes to the db
     con.commit()
 
 
 def adminCheck(user):
     # Get the role of user
-    query = "SELECT UserRole FROM loginCredentials WHERE Username = '{}'".format(
-        user)
-
-    cursor.execute(query)
+    cursor.execute("SELECT UserRole FROM loginCredentials WHERE Username = %(user)s", {
+        'user': user,
+    })
 
     result = ""
 
@@ -126,16 +135,17 @@ def adminCheck(user):
 
 def moderatorCheck(user):
     # Get the role of the user
-    query = "SELECT UserRole FROM loginCredentials WHERE Username = '{}'".format(
-        user)
-
-    cursor.execute(query)
+    cursor.execute("SELECT UserRole FROM loginCredentials WHERE Username = %(user)s", {
+        'user': user,
+    })
 
     result = ""
 
+    # Get the role of the user
     for(UserRole) in cursor:
         result = UserRole
 
+    # Check if role is admin or moderator
     if result[0] == "admin" or result[0] == "moderator":
         return True
     return False
@@ -196,7 +206,7 @@ def deleteBug(bugId):
     # Delete bug with bugId
 
     # Old query
-    #query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
+    # query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
 
     cursor.execute("DELETE FROM BugDetails WHERE BugId = %(bugId)s", {
         'bugId': bugId,
