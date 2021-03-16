@@ -11,8 +11,7 @@ cursor = con.cursor()
 
 def getHigh():
     # Get the count for bugs with priority 1
-    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 1"
-    cursor.execute(query)
+    cursor.execute("SELECT COUNT(*) FROM BugDetails WHERE Priority = 1")
 
     stringNum = ""
 
@@ -24,8 +23,7 @@ def getHigh():
 
 def getMed():
     # Get the count for bugs with priority 2
-    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 2"
-    cursor.execute(query)
+    cursor.execute("SELECT COUNT(*) FROM BugDetails WHERE Priority = 2")
 
     stringNum = ""
 
@@ -37,8 +35,7 @@ def getMed():
 
 def getLow():
     # Get the count for bugs with priority 3
-    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 3"
-    cursor.execute(query)
+    cursor.execute("SELECT COUNT(*) FROM BugDetails WHERE Priority = 3")
 
     stringNum = ""
 
@@ -50,8 +47,7 @@ def getLow():
 
 def getComplete():
     # Get the count for bugs with priority 4
-    query = "SELECT COUNT(*) FROM BugDetails WHERE Priority = 4"
-    cursor.execute(query)
+    cursor.execute("SELECT COUNT(*) FROM BugDetails WHERE Priority = 4")
 
     stringNum = ""
 
@@ -63,8 +59,6 @@ def getComplete():
 
 def addNewUser(name, username, password, userId, email, role):
     idInt = int(userId)
-    query = ("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES ({}, '{}', '{}', '{}', '{}', '{}')".format(
-        idInt, username, password, role, name, email))
 
     cursor.execute("INSERT INTO loginCredentials (EmployeeId, Username, Password, UserRole, FullName, Email) VALUES (%(idInt)s, %(username)s, %(password)s, %(role)s, %(name)s, %(email)s)", {
         'idInt': idInt,
@@ -84,8 +78,6 @@ def checkValidLogin(username, password):
         'password': password
     })
 
-    # print("Query: {}\n".format(query))
-
     uName = ""
     pWord = ""
 
@@ -94,11 +86,8 @@ def checkValidLogin(username, password):
         uName = Username
         pWord = Password
 
-    # print(uName + " " + pWord)
-
     # Count if there is only 1 row
     rowCount = cursor.rowcount
-    # print(rowCount)
 
     # If 1 then return True, else False
     if(rowCount == 1):
@@ -192,10 +181,6 @@ def getCompleteData():
 
 def setBugComplete(bugId):
     # Change priority of bug with bugId to priority 4
-
-    # Old query
-    # query = "UPDATE BugDetails SET Priority = 4 WHERE BugId = {}".format(bugId)
-
     cursor.execute("UPDATE BugDetails SET Priority = 4 WHERE BugId = %(bugId)s", {
         'bugId': bugId
     })
@@ -204,10 +189,6 @@ def setBugComplete(bugId):
 
 def deleteBug(bugId):
     # Delete bug with bugId
-
-    # Old query
-    # query = "DELETE FROM BugDetails WHERE BugId = {}".format(bugId)
-
     cursor.execute("DELETE FROM BugDetails WHERE BugId = %(bugId)s", {
         'bugId': bugId,
     })
@@ -216,10 +197,6 @@ def deleteBug(bugId):
 
 
 def addBug(title, appName, version, creator, assignedTo, details, priority, steps):
-    # query = """INSERT INTO BugDetails (BugTitle, Application, AppVersion,
-    #        Details, Steps, Priority, Assigned, CreatedBy, DayCreated)
-    #        VALUES ('{}','{}','{}','{}','{}',{},'{}','{}', DATE(NOW()))""".format(title, appName, version, details, steps, priority, assignedTo, creator)
-    # cursor.execute(query)
 
     # New query that should prevent SQL injection
     cursor.execute("INSERT INTO BugDetails (BugTitle, Application, AppVersion, Details, Steps, Priority, Assigned, CreatedBy, DayCreated) VALUES (%(title)s, %(appName)s, %(version)s, %(details)s, %(steps)s, %(priority)s, %(assignedTo)s, %(creator)s, DATE(NOW()));", {
