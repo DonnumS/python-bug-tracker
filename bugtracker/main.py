@@ -77,10 +77,12 @@ class MainWindow:
         # Buttons that marks bug as complete
         self.ui.markBugAsComplete.clicked.connect(self.bugCompleted)
         self.ui.markBugAsComplete.clicked.connect(self.navigateViewBugs)
+        self.ui.markBugAsComplete.clicked.connect(self.loadUncomplete)
 
         # Buttons that deletes bug from database
         self.ui.deleteBugFromDatabase.clicked.connect(self.bugDelete)
         self.ui.deleteBugFromDatabase.clicked.connect(self.navigateViewBugs)
+        self.ui.deleteBugFromDatabase.clicked.connect(self.loadUncomplete)
 
         # Buttons that adds new user to database
         self.ui.submitNewUser.clicked.connect(self.addUserToDb)
@@ -265,6 +267,15 @@ class MainWindow:
         # Add bug to database
         addBug(title, appName, version, creator,
                assigned, details, priority, steps)
+
+        # Clear inputs
+        self.ui.inputBugTitle.clear()
+        self.ui.inputAppName.clear()
+        self.ui.inputVersion.clear()
+        self.ui.inputCreatedBy.clear()
+        self.ui.inputAssignedTo.clear()
+        self.ui.inputDetails.clear()
+        self.ui.inputSteps.clear()
 
     def addUserToDb(self):
 
