@@ -76,9 +76,11 @@ class MainWindow:
 
         # Buttons that marks bug as complete
         self.ui.markBugAsComplete.clicked.connect(self.bugCompleted)
+        self.ui.markBugAsComplete.clicked.connect(self.navigateViewBugs)
 
         # Buttons that deletes bug from database
         self.ui.deleteBugFromDatabase.clicked.connect(self.bugDelete)
+        self.ui.deleteBugFromDatabase.clicked.connect(self.navigateViewBugs)
 
         # Buttons that adds new user to database
         self.ui.submitNewUser.clicked.connect(self.addUserToDb)
@@ -120,7 +122,7 @@ class MainWindow:
     def notAccess(self):
         # Simple popup message box to alert that user does not have access to certain parts of the app
         msg = QMessageBox()
-        msg.setWindowTitle("Error!")
+        msg.setWindowTitle("Access denied!")
         msg.setText("You do not have correct privileges")
 
         x = msg.exec_()
